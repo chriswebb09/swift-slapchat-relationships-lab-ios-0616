@@ -12,6 +12,7 @@ import CoreData
 class DataStore {
     
     var messages:[Message] = []
+    var recipients:[Recipient] = []
     
     static let sharedDataStore = DataStore()
     
@@ -38,6 +39,7 @@ class DataStore {
         var error:NSError? = nil
         
         let messagesRequest = NSFetchRequest(entityName: "Message")
+        let recipientRequest = NSFetchRequest(entityName: "Recipient")
         
         let createdAtSorter = NSSortDescriptor(key: "createdAt", ascending:true)
         
@@ -45,16 +47,16 @@ class DataStore {
         
         do{
             messages = try managedObjectContext.executeFetchRequest(messagesRequest) as! [Message]
+            recipients = try managedObjectContext.executeFetchRequest(recipientRequest) as! [Recipient]
         }catch let nserror1 as NSError{
             error = nserror1
             messages = []
+            recipients = []
         }
         
-        if messages.count == 0 {
+        if messages.count == 0 || recipients.count == 0 {
             generateTestData()
         }
-        
-        ////         perform a fetch request to fill an array property on your datastore
     }
     
     func generateTestData() {
@@ -74,9 +76,75 @@ class DataStore {
         messageThree.content = "Message 3"
         messageThree.createdAt = NSDate()
         
+        let recipientA: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
+        
+        recipientA.name = "Betty"
+        recipientA.email = "recipientb@email.com"
+        recipientA.phoneNumber = "(845) - 555 - 1313"
+        recipientA.twitterHandle = "@recipientB"
+        recipientA.messages = [messageOne, messageTwo]
+        
+        let recipientB: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
+        
+        recipientB.name = "Betty"
+        recipientB.email = "recipientb@email.com"
+        recipientB.phoneNumber = "(845) - 555 - 1313"
+        recipientB.twitterHandle = "@recipientB"
+        recipientB.messages = [messageOne, messageTwo]
+        
+        let recipientC: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
+        
+        recipientC.name = "Betty"
+        recipientC.email = "recipientb@email.com"
+        recipientC.phoneNumber = "(845) - 555 - 1313"
+        recipientC.twitterHandle = "@recipientB"
+        recipientC.messages = [messageOne, messageTwo]
+        
+        
+        
         saveContext()
         fetchData()
     }
+    
+//        let messageOne: Message = NSEntityDescription.insertNewObjectForEntityForName("Message", inManagedObjectContext: managedObjectContext) as! Message
+//        
+//        messageOne.content = "Message 1"
+//        messageOne.createdAt = NSDate()
+//        
+//        let messageTwo: Message = NSEntityDescription.insertNewObjectForEntityForName("Message", inManagedObjectContext: managedObjectContext) as! Message
+//        
+//        messageTwo.content = "Message 2"
+//        messageTwo.createdAt = NSDate()
+//        
+//        let messageThree: Message = NSEntityDescription.insertNewObjectForEntityForName("Message", inManagedObjectContext: managedObjectContext) as! Message
+//        
+//        messageThree.content = "Message 3"
+//        messageThree.createdAt = NSDate()
+//        
+//        let recipientA: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
+//        
+//        recipientA.email = "recipienta@email.com"
+//        recipientA.name = "Recipient A"
+//        recipientA.phoneNumber = "(845) - 555 - 1212"
+//        recipientA.twitterHandle = "@recipientA"
+//        recipientA.messages = [messageOne]
+//        
+//        let recipientB: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
+//        recipientB.name = "Recipient B"
+//        recipientB.email = "recipientb@email.com"
+//        recipientB.phoneNumber = "(845) - 555 - 1313"
+//        recipientB.twitterHandle = "@recipientB"
+//        recipientB.messages = [messageTwo]
+//        
+//        let recipientC: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
+//        recipientC.name = "Recipient C"
+//        recipientC.email = "recipientc@email.com"
+//        recipientC.phoneNumber = "(845) - 555 - 1414"
+//        recipientC.twitterHandle = "@recipientC"
+//        recipientC.messages = [messageOne, messageTwo, messageThree]
+//        saveContext()
+//        fetchData()
+
     
     // MARK: - Core Data stack
     // Managed Object Context property getter. This is where we've dropped our "boilerplate" code.

@@ -35,26 +35,23 @@ class DataStore {
     
     func fetchData ()
     {
-        
-        var error:NSError? = nil
-        
-        let messagesRequest = NSFetchRequest(entityName: "Message")
         let recipientRequest = NSFetchRequest(entityName: "Recipient")
         
-        let createdAtSorter = NSSortDescriptor(key: "createdAt", ascending:true)
+        let createdAtSorter = NSSortDescriptor(key: "name", ascending:true)
         
-        messagesRequest.sortDescriptors = [createdAtSorter]
+        recipientRequest.sortDescriptors = [createdAtSorter]
         
         do{
-            messages = try managedObjectContext.executeFetchRequest(messagesRequest) as! [Message]
+            
             recipients = try managedObjectContext.executeFetchRequest(recipientRequest) as! [Recipient]
-        }catch let nserror1 as NSError{
-            error = nserror1
-            messages = []
+            
+        }catch let error as NSError{
+            
+            print(error)
             recipients = []
         }
         
-        if messages.count == 0 || recipients.count == 0 {
+        if recipients.count == 0 {
             generateTestData()
         }
     }
@@ -78,27 +75,27 @@ class DataStore {
         
         let recipientA: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
         
-        recipientA.name = "Betty"
+        recipientA.name = "Recipient A"
         recipientA.email = "recipientb@email.com"
         recipientA.phoneNumber = "(845) - 555 - 1313"
         recipientA.twitterHandle = "@recipientB"
-        recipientA.messages = [messageOne, messageTwo]
+        recipientA.messages?.insert(messageOne)
         
         let recipientB: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
         
-        recipientB.name = "Betty"
+        recipientB.name = "Recipient B"
         recipientB.email = "recipientb@email.com"
         recipientB.phoneNumber = "(845) - 555 - 1313"
         recipientB.twitterHandle = "@recipientB"
-        recipientB.messages = [messageOne, messageTwo]
+        recipientB.messages?.insert(messageTwo)
         
         let recipientC: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
         
-        recipientC.name = "Betty"
+        recipientC.name = "Recipient C"
         recipientC.email = "recipientb@email.com"
         recipientC.phoneNumber = "(845) - 555 - 1313"
         recipientC.twitterHandle = "@recipientB"
-        recipientC.messages = [messageOne, messageTwo]
+        recipientC.messages?.insert(messageThree)
         
         
         

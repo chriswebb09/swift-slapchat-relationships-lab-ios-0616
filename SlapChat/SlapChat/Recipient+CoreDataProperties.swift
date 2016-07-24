@@ -18,6 +18,6 @@ extension Recipient {
     @NSManaged var phoneNumber: String?
     @NSManaged var email: String?
     @NSManaged var twitterHandle: String?
-    @NSManaged var messages: NSSet?
+    @NSManaged var messages: Set<Message>?
 
 }

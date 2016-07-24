@@ -10,7 +10,7 @@ import UIKit
 
 class RecipientTableViewController: UITableViewController {
     var managedRecipientObjects: [Recipient] = []
-    let dataStore = DataStore.sharedDataStore
+    let dataStore: DataStore = DataStore()
     var eachRecipient: Recipient?
     
     
@@ -55,11 +55,17 @@ class RecipientTableViewController: UITableViewController {
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        let destinationVC = segue.destinationViewController as? MessageTableViewController
-        let selectedRecipient = dataStore.recipients[tableView.indexPathForSelectedRow!.row]
-        destinationVC?.managedMessageObjects = selectedRecipient.messages?.allObjects as! [Message]
+        let indexPath = tableView.indexPathForSelectedRow
+        
+        let selectedRecipient = dataStore.recipients[indexPath!.row]
+        
+        let destinationVC = segue.destinationViewController as! MessageTableViewController
+        
+        if let messageSet = selectedRecipient.messages{
+            
+            destinationVC.messages = messageSet
+            
+        }
         
     }
 }

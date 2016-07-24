@@ -12,10 +12,7 @@ class RecipientTableViewController: UITableViewController {
     var managedRecipientObjects: [Recipient] = []
     let dataStore: DataStore = DataStore()
     var eachRecipient: Recipient?
-    
-    
-   //
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         dataStore.fetchData()
@@ -33,19 +30,17 @@ class RecipientTableViewController: UITableViewController {
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
-        
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataStore.recipients.count
-        
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("basicCell", forIndexPath: indexPath)
         
+        let cell = tableView.dequeueReusableCellWithIdentifier("basicCell", forIndexPath: indexPath)
         self.eachRecipient = dataStore.recipients[indexPath.row]
-        //self.messages = eachRecipient!.messages.allObjects as! [Message]
+        
         if let recipientName = self.eachRecipient!.name {
             cell.textLabel?.text = recipientName
         }
@@ -55,23 +50,17 @@ class RecipientTableViewController: UITableViewController {
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
         let indexPath = tableView.indexPathForSelectedRow
-        
         let selectedRecipient = dataStore.recipients[indexPath!.row]
+        let messageVC = segue.destinationViewController as! MessageTableViewController
         
-        let destinationVC = segue.destinationViewController as! MessageTableViewController
-        
-        if let messageSet = selectedRecipient.messages{
-            
-            destinationVC.messages = messageSet
-            
+        if let messages = selectedRecipient.messages {
+            messageVC.messages = messages
         }
         
     }
 }
-//        var messageVC = segue.destinationViewController as! MessageTableViewController {
-//            Mes
-//        }//MessageTableViewController.destinationViewController
-//        
+     
 
 

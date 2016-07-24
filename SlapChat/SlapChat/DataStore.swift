@@ -24,8 +24,6 @@ class DataStore {
             do {
                 try managedObjectContext.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
                 NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
                 abort()
@@ -36,16 +34,14 @@ class DataStore {
     func fetchData ()
     {
         let recipientRequest = NSFetchRequest(entityName: "Recipient")
-        
         let createdAtSorter = NSSortDescriptor(key: "name", ascending:true)
-        
         recipientRequest.sortDescriptors = [createdAtSorter]
         
-        do{
+        do {
             
             recipients = try managedObjectContext.executeFetchRequest(recipientRequest) as! [Recipient]
             
-        }catch let error as NSError{
+        } catch let error as NSError {
             
             print(error)
             recipients = []
@@ -76,9 +72,9 @@ class DataStore {
         let recipientA: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
         
         recipientA.name = "Recipient A"
-        recipientA.email = "recipientb@email.com"
-        recipientA.phoneNumber = "(845) - 555 - 1313"
-        recipientA.twitterHandle = "@recipientB"
+        recipientA.email = "recipienta@email.com"
+        recipientA.phoneNumber = "(845) - 555 - 1212"
+        recipientA.twitterHandle = "@recipientA"
         recipientA.messages?.insert(messageOne)
         
         let recipientB: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
@@ -92,56 +88,14 @@ class DataStore {
         let recipientC: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
         
         recipientC.name = "Recipient C"
-        recipientC.email = "recipientb@email.com"
-        recipientC.phoneNumber = "(845) - 555 - 1313"
-        recipientC.twitterHandle = "@recipientB"
+        recipientC.email = "recipientc@email.com"
+        recipientC.phoneNumber = "(845) - 555 - 1414"
+        recipientC.twitterHandle = "@recipientc"
         recipientC.messages?.insert(messageThree)
-        
-        
         
         saveContext()
         fetchData()
     }
-    
-//        let messageOne: Message = NSEntityDescription.insertNewObjectForEntityForName("Message", inManagedObjectContext: managedObjectContext) as! Message
-//        
-//        messageOne.content = "Message 1"
-//        messageOne.createdAt = NSDate()
-//        
-//        let messageTwo: Message = NSEntityDescription.insertNewObjectForEntityForName("Message", inManagedObjectContext: managedObjectContext) as! Message
-//        
-//        messageTwo.content = "Message 2"
-//        messageTwo.createdAt = NSDate()
-//        
-//        let messageThree: Message = NSEntityDescription.insertNewObjectForEntityForName("Message", inManagedObjectContext: managedObjectContext) as! Message
-//        
-//        messageThree.content = "Message 3"
-//        messageThree.createdAt = NSDate()
-//        
-//        let recipientA: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
-//        
-//        recipientA.email = "recipienta@email.com"
-//        recipientA.name = "Recipient A"
-//        recipientA.phoneNumber = "(845) - 555 - 1212"
-//        recipientA.twitterHandle = "@recipientA"
-//        recipientA.messages = [messageOne]
-//        
-//        let recipientB: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
-//        recipientB.name = "Recipient B"
-//        recipientB.email = "recipientb@email.com"
-//        recipientB.phoneNumber = "(845) - 555 - 1313"
-//        recipientB.twitterHandle = "@recipientB"
-//        recipientB.messages = [messageTwo]
-//        
-//        let recipientC: Recipient = NSEntityDescription.insertNewObjectForEntityForName("Recipient", inManagedObjectContext: managedObjectContext) as! Recipient
-//        recipientC.name = "Recipient C"
-//        recipientC.email = "recipientc@email.com"
-//        recipientC.phoneNumber = "(845) - 555 - 1414"
-//        recipientC.twitterHandle = "@recipientC"
-//        recipientC.messages = [messageOne, messageTwo, messageThree]
-//        saveContext()
-//        fetchData()
-
     
     // MARK: - Core Data stack
     // Managed Object Context property getter. This is where we've dropped our "boilerplate" code.
